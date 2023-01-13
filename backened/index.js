@@ -1,6 +1,7 @@
 const express = require('express')
 const {connection} = require("./config/db")
 const {UserModel} = require("./models/UserModel")
+const bcrypt = require('bcrypt');
 
 const app = express()
 
@@ -12,13 +13,30 @@ app.get((req, res) => {
 
 app.post("/signup", async (req, res) => {
     const {name, email, password} = req.body
-    // console.log(name, email, password)
-    const new_user = ({
-        name,
-        email,
-        password
-    })
-    await new_user.save()
+
+    const isUser = await UserModel.findOne({email})
+    if(isUser) {
+        res.send("user already exits please loggin")
+    }
+    bcrypt.hash(password, 4, async function(err, hash) {
+        if(err) {
+            res.send("something went wrong, please try again")
+        } else {
+            const new_user = new UserModel({
+                name,
+                email,
+                password : hash
+            })
+        
+            try {
+                await new_user.save()
+                res.send("sign successful")
+            } catch(err) {
+                res.send("something went wrong, please try again")
+            }
+        }
+    });
+
 })
 
 app.listen(8000, async () => {
