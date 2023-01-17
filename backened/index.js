@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require("cors")
 const {connection} = require("./config/db")
 const {UserModel} = require("./models/UserModel")
 const bcrypt = require('bcrypt');
@@ -8,6 +9,8 @@ const { BMIModel } = require('./models/BMIModel');
 require("dotenv").config()
 
 const app = express()
+
+app.use(cors())
 app.use(express.json())
 
 app.get((req, res) => {
@@ -20,28 +23,29 @@ app.post("/signup", async (req, res) => {
     // if user already signup it means user alrady exits please try login
     const isUser = await UserModel.findOne({email})
     if(isUser) {
-        res.send("user already exits please login")
+        res.send({"msg" : "user already exits please login"})
     }
-    bcrypt.hash(password, 4, async function(err, hash) {
-        if(err) {
-            res.send("something went wrong, please try again")
-        } 
-        else {
-            const new_user = new UserModel({
-                name,
-                email,
-                password : hash
-            })
-        
-            try {
-                await new_user.save()
-                res.send("sign successful")
-            } catch(err) {
+    else {
+        bcrypt.hash(password, 4, async function(err, hash) {
+            if(err) {
                 res.send("something went wrong, please try again")
+            } 
+            else {
+                const new_user = new UserModel({
+                    name,
+                    email,
+                    password : hash
+                })
+            
+                try {
+                    await new_user.save()
+                    res.send({"msg" : "sign up successfull"})
+                } catch(err) {
+                    res.send({"msg" : "something went wrong, please try again"})
+                }
             }
-        }
-    });
-
+        });
+    }
 })
 
 // backend login api
@@ -54,15 +58,15 @@ app.post("/login", async (req, res) => {
     console.log(user_id)
     bcrypt.compare(password, hashed_password, function(err, result) {
         if(err) {
-            res.send("something went wrong, please try again later")
+            res.send({"msg": "something went wrong, please try again later"})
         }
         if(result) {
             const token = jwt.sign({user_id}, process.env.SECRET_KEY)
             res.send({message : "login successful", token})
         } else {
-            res.send("login failed")
-        }
-    });
+            res.send({"msg" : "login failed"})
+        } 
+    }); 
 })
 
 // backened getprofile api
@@ -80,9 +84,9 @@ app.post('/calculateBMI', authentication, async (req, res) => {
     const BMI = +(weight)/(height_in_meter)** 2 
     const new_bmi = new BMIModel({
         BMI,
-        height: height_in_meter,
+        height: height_in_meter, 
         weight,
-        user_id
+        user_id 
     })
     await new_bmi.save()
     res.send({BMI}) 
