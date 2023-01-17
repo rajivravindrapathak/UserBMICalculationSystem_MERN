@@ -29,8 +29,8 @@ API's
 6. logout -> clear token on the frontend
 
 
-http://localhost:8000/login
-http://localhost:8000/signup
-http://localhost:8000/getProfile - GET
-http://localhost:8000/calculateBMI - POST
-http://localhost:8000/getCalculation - GET
+<P>http://localhost:8000/login - POST</p>
+<p>http://localhost:8000/signup - POST</p>
+<P>http://localhost:8000/getProfile - GET</p>
+<P>http://localhost:8000/calculateBMI - POST</P>
+<p>http://localhost:8000/getCalculation - GET</p>
