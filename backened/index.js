@@ -4,24 +4,23 @@ const {UserModel} = require("./models/UserModel")
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const { authentication } = require('./middlewares/authentication');
+const { BMIModel } = require('./models/BMIModel');
 require("dotenv").config()
 
 const app = express()
-
 app.use(express.json())
 
 app.get((req, res) => {
     res.send("hello")
 })
 
-// backened signup
-
+// backened signup api
 app.post("/signup", async (req, res) => {
     const {name, email, password} = req.body
-
+    // if user already signup it means user alrady exits please try login
     const isUser = await UserModel.findOne({email})
     if(isUser) {
-        res.send("user already exits please loggin")
+        res.send("user already exits please login")
     }
     bcrypt.hash(password, 4, async function(err, hash) {
         if(err) {
@@ -45,8 +44,7 @@ app.post("/signup", async (req, res) => {
 
 })
 
-// backend login
-
+// backend login api
 app.post("/login", async (req, res) => {
     const {email, password} = req.body
     const user = await UserModel.findOne({email})
@@ -67,21 +65,44 @@ app.post("/login", async (req, res) => {
     });
 })
 
+// backened getprofile api
 app.get('/getProfile', authentication, async (req, res) => {
     const { user_id } = req.body
     const user =  await UserModel.findOne({_id: user_id})
-    console.log(user)
-    res.send("a")
+    const {name, email} = user
+    res.send({name, email})
 })
 
+//  backened calculateBMI api
+app.post('/calculateBMI', authentication, async (req, res) => {
+    const {height, weight, user_id} = req.body
+    const height_in_meter = +(height)*0.3048
+    const BMI = +(weight)/(height_in_meter)** 2 
+    const new_bmi = new BMIModel({
+        BMI,
+        height: height_in_meter,
+        weight,
+        user_id
+    })
+    await new_bmi.save()
+    res.send({BMI}) 
+})
+
+// backened getCalculation api
+app.get('/getCalculation', authentication, async (req, res) => {
+    const {user_id} = req.body
+    const all_bmi = await BMIModel.find({user_id : user_id})
+    res.send({history : all_bmi})
+})
+ 
 app.listen(8000, async () => {
  
     try {
-        await connection
+        await connection 
         console.log("connection to database success")
     } catch (err) {
         console.log("not connect to batabase")
         console.log(err)
     }
     console.log("listning on port 8000")
-})
+}) 
