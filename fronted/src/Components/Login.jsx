@@ -19,17 +19,19 @@ const Login = () => {
             body : JSON.stringify(payload)
         })
         .then((res) => res.json())
-        .then((res) => console.log(res))
+        .then((res) => {
+            localStorage.setItem("token", res.token)
+            console.log(res.token)
+        })
     }
 
 
     return (
         <div>
-            <h1>SignUp page</h1>
-            <input type='text' placeholder='name' onChange={(e) => setName(e.target.value)} />
+            <h1>Login page</h1>
             <input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
             <input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleSubmit}>SignUp</button>
+            <button onClick={handleSubmit}>Login</button>
         </div>
     )
 }
