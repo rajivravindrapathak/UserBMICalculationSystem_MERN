@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require("cors")
 const {connection} = require("./config/db")
 const {UserModel} = require("./models/UserModel")
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const { authentication } = require('./middlewares/authentication');
 const { BMIModel } = require('./models/BMIModel');
@@ -26,7 +26,7 @@ app.post("/signup", async (req, res) => {
         res.send({"msg" : "user already exits please login"})
     }
     else {
-        bcrypt.hash(password, 4, async function(err, hash) {
+        bcryptjs.hash(password, 4, async function(err, hash) {
             if(err) {
                 res.send("something went wrong, please try again")
             } 
@@ -56,7 +56,7 @@ app.post("/login", async (req, res) => {
     const user_id = user._id
     console.log(user)
     console.log(user_id)
-    bcrypt.compare(password, hashed_password, function(err, result) {
+    bcryptjs.compare(password, hashed_password, function(err, result) {
         if(err) {
             res.send({"msg": "something went wrong, please try again later"})
         }
@@ -66,7 +66,7 @@ app.post("/login", async (req, res) => {
         } else {
             res.send({"msg" : "login failed"})
         } 
-    }); 
+    });  
 })
 
 // backened getprofile api
@@ -99,8 +99,8 @@ app.get('/getCalculation', authentication, async (req, res) => {
     res.send({history : all_bmi})
 })
  
-app.listen(8000, async () => {
- 
+app.listen(8000, async () => {   
+  
     try {
         await connection 
         console.log("connection to database success")
