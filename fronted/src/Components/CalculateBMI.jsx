@@ -14,15 +14,13 @@ const CalculateBMI = () => {
         fetch("http://localhost:8000/calculateBMI", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
             body : JSON.stringify(payload)
         })
         .then((res) => res.json())
-        .then((res) => {
-            localStorage.setItem("token", res.token)
-            console.log(res.token)
-        })
+        .then((res) => console.log(res.token))
     }
 
 
