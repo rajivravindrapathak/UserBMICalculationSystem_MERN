@@ -22,6 +22,7 @@ const SignUp = () => {
         })
         .then((res) => res.json())
         .then((res) => console.log(res))
+        alert('SignUp Successful Please Click On Ok To Further go and calculate BMI')
     }
 
 

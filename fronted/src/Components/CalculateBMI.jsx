@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const CalculateBMI = () => {
 
@@ -25,7 +26,7 @@ const CalculateBMI = () => {
             console.log(res)
             setData(res)
         })
-        alert("Bmi")
+        alert("You can achieve calculated BMI value")
     }
 
     console.log(data)
@@ -37,20 +38,14 @@ const CalculateBMI = () => {
             <input type='text' placeholder='height in feet' onChange={(e) => setHeight(e.target.value)} />
             <input type='text' placeholder='weight in kg' onChange={(e) => setWeight(e.target.value)} />
             <button onClick={handleSubmit}>CalculateBMI</button>
+            <Link to='/logout'><button>GoTOLogoutPage</button></Link>
             
+             <div>
+                <br />
+                BMI Value: {data.BMI}
+            </div>
         </div>
        
-            // <div>
-            //     { 
-            //         data.map((e) => {
-            //             return (
-            //                 <div key={e.id}>
-            //                     <div>{e.BMI}</div>
-            //                 </div>
-            //             )
-            //         }) 
-            //     } 
-            // </div>
       
         
     )

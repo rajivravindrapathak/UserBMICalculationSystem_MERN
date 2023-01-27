@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
 
@@ -23,6 +24,7 @@ const Login = () => {
             localStorage.setItem("token", res.token)
             console.log(res.token)
         })
+        alert('Login Successful Please Click On Ok To Further go and calculate BMI')
     }
 
 
@@ -31,8 +33,9 @@ const Login = () => {
             <h1>Login page</h1>
             <input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
             <input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleSubmit}>Login</button>
+            <Link to='/calculateBMI'><button onClick={handleSubmit}>Login</button></Link>
         </div>
+        
     )
 }
 
