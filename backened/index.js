@@ -8,9 +8,10 @@ const { authentication } = require('./middlewares/authentication');
 const { BMIModel } = require('./models/BMIModel');
 require("dotenv").config()
 
-const app = express()
-
-app.use(cors())
+const app = express() 
+const PORT = process.env.PORT || 8000 
+ 
+app.use(cors()) 
 app.use(express.json())
 
 app.get((req, res) => {
@@ -65,7 +66,7 @@ app.post("/login", async (req, res) => {
             res.send({message : "login successful", token})
         } else {
             res.send({"msg" : "login failed"})
-        } 
+        }  
     });  
 })
 
@@ -85,11 +86,12 @@ app.post('/calculateBMI', authentication, async (req, res) => {
     const new_bmi = new BMIModel({
         BMI,
         height: height_in_meter, 
-        weight,
+        weight, 
         user_id 
-    })
+    }) 
     await new_bmi.save()
     res.send({BMI}) 
+    // res.send("post successful")
 })
 
 // backened getCalculation api
@@ -99,14 +101,14 @@ app.get('/getCalculation', authentication, async (req, res) => {
     res.send({history : all_bmi})
 })
  
-app.listen(8000, async () => {   
+app.listen(PORT, async () => {   
   
     try {
         await connection 
         console.log("connection to database success")
     } catch (err) {
-        console.log("not connect to batabase")
+        console.log("not connect to database")
         console.log(err)
     }
-    console.log("listning on port 8000")
+    console.log(`listening on port ${PORT}`)
 }) 
