@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import './CalculateBMI.module.css'
 
 const CalculateBMI = () => {
 
@@ -13,7 +14,7 @@ const CalculateBMI = () => {
             weight
         }
         console.log(payload)
-        fetch("http://localhost:8000/calculateBMI", {
+        fetch("http://localhost:8500/calculateBMI", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -33,17 +34,19 @@ const CalculateBMI = () => {
 
     return (
         
-        <div>
+        <div className='mainDivCalculateBMI'>
             <h1>CalculateBMI page</h1>
             <input type='text' placeholder='height in feet' onChange={(e) => setHeight(e.target.value)} />
             <input type='text' placeholder='weight in kg' onChange={(e) => setWeight(e.target.value)} />
-            <button onClick={handleSubmit}>CalculateBMI</button>
-            <Link to='/logout'><button>GoTOLogoutPage</button></Link>
+            <button className='calculateBMIbtn' onClick={handleSubmit}>CalculateBMI</button>
             
              <div>
                 <br />
-                BMI Value: {data.BMI}
+                <h1>BMI Value:</h1> {data.BMI}
             </div>
+
+            <Link to='/logout'><button className='calculateBMIbtn'>GoTOLogoutPage</button></Link>
+
         </div>
        
       

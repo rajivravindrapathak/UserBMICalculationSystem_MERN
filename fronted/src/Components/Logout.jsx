@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import './Logout.module.css'
 
 const Logout = () => {
 
@@ -7,9 +9,9 @@ const Logout = () => {
     }
 
     return (
-        <div>
+        <div className='mainDivLogout'>
             <h1>Logout page</h1>
-            <button onClick={handleSubmit}>Logout</button>
+            <Link to='/signup'><button className='logoutbtn' onClick={handleSubmit}>Logout</button></Link>
         </div>
     )
 }

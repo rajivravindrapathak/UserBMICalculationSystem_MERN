@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import './SignUp.module.css'
 
 const SignUp = () => {
 
@@ -13,7 +15,7 @@ const SignUp = () => {
             password
         }
         console.log(payload)
-        fetch("http://localhost:8000/signup", {
+        fetch("http://localhost:8500/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -21,18 +23,20 @@ const SignUp = () => {
             body : JSON.stringify(payload)
         })
         .then((res) => res.json())
-        .then((res) => console.log(res))
+        .then((res) => {
+            console.log(res)
+        })
         alert('SignUp Successful Please Click On Ok To Further go and calculate BMI')
     }
 
 
     return (
-        <div>
+        <div className='mainDivSignUp'>
             <h1>SignUp page</h1>
-            <input type='text' placeholder='name' onChange={(e) => setName(e.target.value)} />
-            <input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
-            <input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleSubmit}>SignUp</button>
+            <input type='text' placeholder='name' onChange={(e) => setName(e.target.value)} /><br/>
+            <input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} /><br/>
+            <input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} /><br/>
+            <Link to='/login'><button className='signUpbtn' onClick={handleSubmit}>SignUp</button></Link>
         </div>
     )
 }
