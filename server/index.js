@@ -9,7 +9,7 @@ const { BMIModel } = require('./models/BMIModel');
 require("dotenv").config()
 
 const app = express() 
-const PORT = process.env.PORT || 8000 
+const PORT = process.env.PORT || 6002
  
 app.use(cors()) 
 app.use(express.json())
@@ -20,7 +20,7 @@ app.get((req, res) => {
 
 // backened signup api
 app.post("/signup", async (req, res) => {
-    const {name, email, password} = req.body
+    const {username, email, password} = req.body
     // if user already signup it means user alrady exits please try login
     const isUser = await UserModel.findOne({email})
     if(isUser) {
@@ -29,12 +29,13 @@ app.post("/signup", async (req, res) => {
     else {
         bcryptjs.hash(password, 4, async function(err, hash) {
             if(err) {
-                res.send("something went wrong, please try again")
+                console.log(err)
+                res.send("something went wrong, please try again", err)
             } 
             else {
-                const new_user = new UserModel({
-                    name,
-                    email,
+                const new_user = new UserModel({  
+                    username,
+                    email,    
                     password : hash
                 })
             
@@ -54,7 +55,7 @@ app.post("/login", async (req, res) => {
     const {email, password} = req.body
     const user = await UserModel.findOne({email})
     const hashed_password = user.password
-    const user_id = user._id
+    const user_id = user._id   
     console.log(user)
     console.log(user_id)
     bcryptjs.compare(password, hashed_password, function(err, result) {
@@ -100,14 +101,13 @@ app.get('/getCalculation', authentication, async (req, res) => {
     const all_bmi = await BMIModel.find({user_id : user_id})
     res.send({history : all_bmi})
 })
- 
+
 app.listen(PORT, async () => {   
-  
     try {
         await connection 
-        console.log("connection to database success")
+        console.log("connected to db")
     } catch (err) {
-        console.log("not connect to database")
+        console.log("not connected to db")
         console.log(err)
     }
     console.log(`listening on port ${PORT}`)
