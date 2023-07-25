@@ -8,14 +8,14 @@ const { authentication } = require('./middlewares/authentication');
 const { BMIModel } = require('./models/BMIModel');
 require("dotenv").config()
 
-const app = express() 
+const app = express()    
 const PORT = process.env.PORT || 6002
  
-app.use(cors()) 
-app.use(express.json())
+app.use(cors())     
+app.use(express.json())    
 
 app.get((req, res) => {
-    res.send("hello")
+    res.send("hello")   
 })
 
 // backened signup api
