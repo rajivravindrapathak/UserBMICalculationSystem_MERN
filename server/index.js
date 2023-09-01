@@ -8,7 +8,7 @@ const { authentication } = require('./middlewares/authentication');
 const { BMIModel } = require('./models/BMIModel');
 require("dotenv").config()
 
-const app = express()    
+const app = express()        
 const PORT = process.env.PORT || 6002
  
 app.use(cors())     
@@ -48,10 +48,10 @@ app.post("/signup", async (req, res) => {
             }
         });
     }
-})
+})         
 
 // backend login api
-app.post("/login", async (req, res) => {
+app.post("/login", async (req, res) => {   
     const {email, password} = req.body
     const user = await UserModel.findOne({email})
     const hashed_password = user.password
@@ -86,9 +86,9 @@ app.post('/calculateBMI', authentication, async (req, res) => {
     const BMI = +(weight)/(height_in_meter)** 2 
     const new_bmi = new BMIModel({
         BMI,
-        height: height_in_meter, 
+        height: height_in_meter,    
         weight, 
-        user_id 
+        user_id    
     }) 
     await new_bmi.save()
     res.send({BMI}) 
