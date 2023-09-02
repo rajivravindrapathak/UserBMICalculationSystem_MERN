@@ -11,24 +11,24 @@ const SignUp = () => {
         username: '',
         email: '',
         password: ''
-      });
+    });
   
-      const handleChange = (e) => {
-        setFormData({
-          ...formData,
-          [e.target.name]: e.target.value
-        });
-      };    
+    const handleChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+      });
+    };    
 
-      const handleSignUp = async (formData) => {
-        try {
-          const response = await axios.post('http://localhost:6001/signup', formData);
-          console.log('Sign-up successful:', response.data);
-          navigate('/')
-        } catch (error) {
-          console.error('Sign-up failed:', error.response.data);
-        }
-      };
+    const handleSignUp = async (formData) => {
+      try {
+        const response = await axios.post('http://localhost:6001/signup', formData);
+        console.log('Sign-up successful:', response.data);
+        navigate('/login')
+      } catch (error) {
+        console.error('Sign-up failed:', error.response.data);
+      }
+    };
 
     const onFinish = (e) => {
       handleSignUp(formData);
@@ -80,11 +80,11 @@ const SignUp = () => {
                 <div className="btn-div">
                   <Form.Item>
                     <Link to='/login' style={{ textAlign: 'center'}} >
-                      <Button type="primary">click here to login</Button>
+                      <Button type="primary">click here to Login</Button>
                     </Link>
                   </Form.Item>
                   <Form.Item>
-                    <Button htmlType="submit" type="primary">Register</Button>
+                    <Button htmlType="submit" type="primary">SignUp</Button>
                   </Form.Item>
                 </div>
               </Form>

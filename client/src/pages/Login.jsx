@@ -27,7 +27,7 @@ const Login = () => {
 
           // Store the token in local storage (you can use session storage as well)
           localStorage.setItem('token', token);
-          navigate('/')
+          navigate('/calculateBMI')
           // You can handle successful sign-up, show a success message, or redirect to another page.
         } catch (error) {
             navigate('/signup')
@@ -76,8 +76,8 @@ const Login = () => {
                             </Form.Item>
                             <div className="btn-div">
                                 <Form.Item>
-                                    <Link to='/register' style={{ textAlign: 'center' }} >
-                                        <Button type="primary">click here to register</Button>
+                                    <Link to='/signup' style={{ textAlign: 'center' }} >
+                                        <Button type="primary">click here to SignUp</Button>
                                     </Link>
                                 </Form.Item>
                                 <Form.Item> 
