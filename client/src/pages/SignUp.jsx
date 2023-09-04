@@ -22,7 +22,7 @@ const SignUp = () => {
 
     const handleSignUp = async (formData) => {
       try {
-        const response = await axios.post('http://localhost:6001/signup', formData);
+        const response = await axios.post('https://user-bmi-calculation-system-mern.vercel.app/signup', formData);
         console.log('Sign-up successful:', response.data);
         navigate('/login')
       } catch (error) {

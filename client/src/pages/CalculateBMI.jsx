@@ -20,7 +20,7 @@ const CalculateBMI = () => {
 
     const onFinish = async () => {
         try {
-            const response = await axios.post('http://localhost:6001/calculateBMI', bmidata);
+            const response = await axios.post('https://user-bmi-calculation-system-mern.vercel.app/calculateBMI', bmidata);
             console.log('data successful:', response.data);
             const { token } = response.data;
   
