@@ -14,8 +14,8 @@ const PORT = process.env.PORT || 6002
 app.use(cors())     
 app.use(express.json())    
 
-app.get((req, res) => {
-    res.send("hello")   
+app.get('/', (req, res) => {
+    res.status(500).send("bmi app")   
 })
 
 // backened signup api
